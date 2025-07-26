@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "80:5173"
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+    environment:
+      - HOST=0.0.0.0
+    restart: always
+
+  backend:
+    build: ./backend
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - HOST=0.0.0.0
+    restart: always
