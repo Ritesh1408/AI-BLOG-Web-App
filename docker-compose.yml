@@ -9,8 +9,6 @@ services:
       - "80:5173"
     depends_on:
       - backend
-    env_file:
-      - ./frontend/.env
     environment:
       - HOST=0.0.0.0
     restart: always
