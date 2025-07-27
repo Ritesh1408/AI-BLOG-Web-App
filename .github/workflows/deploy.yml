@@ -20,10 +20,13 @@ jobs:
           echo "${{ secrets.EC2_KEY_B64 }}" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          file ~/.ssh/id_rsa  # debug line: should say "PEM RSA private key"
+          ls -l ~/.ssh        # debug: check permissions
+          cat ~/.ssh/id_rsa | head -n 5  # check if first lines are as expected
 
       - name: Test SSH connection
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo ✅ SSH connection established"
+          ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo ✅ Connected!"
 
       - name: Deploy code and run Docker
         env:
