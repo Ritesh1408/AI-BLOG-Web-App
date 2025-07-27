@@ -23,28 +23,35 @@ jobs:
 
       - name: Deploy code and run Docker
         env:
-          EC2_USER: ${{ secrets.EC2_USER }}   # usually 'ubuntu'
-          EC2_HOST: ${{ secrets.EC2_HOST }}   # your public EC2 IP
-          BACKEND_ENV: ${{ secrets.BACKEND_ENV }}     # full .env string for backend
-          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }}   # full .env.production string for Vite
+          EC2_USER: ${{ secrets.EC2_USER }}         # usually 'ubuntu'
+          EC2_HOST: ${{ secrets.EC2_HOST }}         # your EC2 public IP
+          BACKEND_ENV: ${{ secrets.BACKEND_ENV }}   # full backend .env
+          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }} # full frontend .env.production
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             set -e
 
-            # Clone repo if not exists
+            # 🧩 Install docker compose plugin if missing
+            if ! command -v docker compose &> /dev/null; then
+              sudo apt update
+              sudo apt install docker-compose-plugin -y
+            fi
+
+            # 📦 Clone repo if not present
             if [ ! -d "AI-BLOG-Web-App" ]; then
               git clone https://github.com/Ritesh1408/AI-BLOG-Web-App.git
             fi
 
             cd AI-BLOG-Web-App
 
+            # 🔁 Pull latest code
             git pull origin main
 
-            # Inject .env files
+            # 🔐 Inject environment variables
             echo "$BACKEND_ENV" > backend/.env
             echo "$FRONTEND_ENV" > frontend/.env.production
 
-            # Run docker
-            docker-compose down --remove-orphans
-            docker-compose up -d --build
+            # 🚀 Run Docker Compose
+            docker compose down --remove-orphans
+            docker compose up -d --build
           EOF
