@@ -15,9 +15,11 @@ services:
     build: ./backend
     command: node server.js
     ports:
-      - "8000:8000"
+      - "8000:5000"
     env_file:
       - ./backend/.env
     environment:
       - NODE_ENV=production
+    volumes:
+      - ./backend/uploads:/app/uploads
     restart: always
