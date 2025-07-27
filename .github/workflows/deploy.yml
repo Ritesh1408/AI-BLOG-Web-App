@@ -26,13 +26,20 @@ jobs:
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
+          BACKEND_ENV: ${{ secrets.BACKEND_ENV }}
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             if [ ! -d "AI-BLOG-Web-App" ]; then
               git clone https://github.com/Ritesh1408/AI-BLOG-Web-App.git
             fi
+
             cd AI-BLOG-Web-App
+
             git pull origin main
+
+            # Write the backend .env file from GitHub Secret
+            echo "$BACKEND_ENV" > backend/.env
+
             docker-compose down --remove-orphans
             docker-compose up -d --build
           EOF
