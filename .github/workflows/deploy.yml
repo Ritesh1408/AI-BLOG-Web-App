@@ -27,6 +27,7 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           BACKEND_ENV: ${{ secrets.BACKEND_ENV }}
+          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }}
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             if [ ! -d "AI-BLOG-Web-App" ]; then
@@ -37,8 +38,11 @@ jobs:
 
             git pull origin main
 
-            # Write the backend .env file from GitHub Secret
+            # Inject backend .env
             echo "$BACKEND_ENV" > backend/.env
+
+            # Inject frontend .env.production (VITE_ prefixed vars)
+            echo "$FRONTEND_ENV" > frontend/.env.production
 
             docker-compose down --remove-orphans
             docker-compose up -d --build
