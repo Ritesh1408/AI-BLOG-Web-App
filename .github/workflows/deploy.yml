@@ -9,27 +9,29 @@ jobs:
   deploy:
     name: Deploy via SSH
     runs-on: ubuntu-latest
-    environment: aiblog_key
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          printf "%s\n" "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy code and run Docker
         env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          BACKEND_ENV: ${{ secrets.BACKEND_ENV }}
-          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }}
+          EC2_USER: ${{ secrets.EC2_USER }}   # usually 'ubuntu'
+          EC2_HOST: ${{ secrets.EC2_HOST }}   # your public EC2 IP
+          BACKEND_ENV: ${{ secrets.BACKEND_ENV }}     # full .env string for backend
+          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }}   # full .env.production string for Vite
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+            set -e
+
+            # Clone repo if not exists
             if [ ! -d "AI-BLOG-Web-App" ]; then
               git clone https://github.com/Ritesh1408/AI-BLOG-Web-App.git
             fi
@@ -38,12 +40,11 @@ jobs:
 
             git pull origin main
 
-            # Inject backend .env
+            # Inject .env files
             echo "$BACKEND_ENV" > backend/.env
-
-            # Inject frontend .env.production (VITE_ prefixed vars)
             echo "$FRONTEND_ENV" > frontend/.env.production
 
+            # Run docker
             docker-compose down --remove-orphans
             docker-compose up -d --build
           EOF
