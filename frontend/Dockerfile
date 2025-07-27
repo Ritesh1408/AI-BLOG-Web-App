@@ -1,14 +1,18 @@
+# Base image
 FROM node:20
 
+# Set working directory
 WORKDIR /app
 
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
+# Copy rest of the code (including src/)
 COPY . .
 
-# Allow Vite to run on all interfaces, not just localhost
-ENV HOST=0.0.0.0
+# Expose Vite's default port
 EXPOSE 5173
 
+# Default command
 CMD ["npm", "run", "dev"]
