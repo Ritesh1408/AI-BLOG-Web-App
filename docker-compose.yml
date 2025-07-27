@@ -1,8 +1,9 @@
+# docker-compose.yml
 version: '3.8'
 
 services:
   frontend:
-    build: ./frontend
+    image: rr1408/aiblog-frontend:latest
     ports:
       - "80:3000"
     depends_on:
@@ -12,8 +13,7 @@ services:
     restart: always
 
   backend:
-    build: ./backend
-    command: node server.js
+    image: rr1408/aiblog-backend:latest
     ports:
       - "8000:5000"
     env_file:
