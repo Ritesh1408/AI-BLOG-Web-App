@@ -9,6 +9,7 @@ yarn-error.log*
 
 # Env files
 *.env
+uploads/
 
 # Build artifacts
 **/dist/

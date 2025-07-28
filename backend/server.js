@@ -46,7 +46,7 @@ app.use("/api/dashboard-summary", dashboardRoutes);
 app.use("/api/ai", aiRoutes);
 
 // serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Sample route
