@@ -16,12 +16,19 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://ai-blog-frontend.onrender.com",
+        origin: "*",
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
     })
 );
+// app.use(
+//     cors({
+//         origin: "https://ai-blog-frontend.onrender.com",
+//         methods: ["GET", "POST", "PUT", "DELETE"],
+//         allowedHeaders: ["Content-Type", "Authorization"],
+//         credentials: true,
+//     })
+// );
 
 // DB connect
 connectDB();
@@ -39,8 +46,8 @@ app.use("/api/dashboard-summary", dashboardRoutes);
 app.use("/api/ai", aiRoutes);
 
 // serve uploads folder
-// app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Sample route
 app.get('/', (req, res) => {
