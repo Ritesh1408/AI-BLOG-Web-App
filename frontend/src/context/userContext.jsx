@@ -37,13 +37,17 @@ const UserProvider = ({children}) => {
 
     const updateUser = (userData) => {
         setUser(userData);
-        localStorage.setItem("token", userData.token); // save token
+        // save token
+        if (userData?.token) {
+            localStorage.setItem("token", userData.token);
+        }
+        // localStorage.setItem("token", userData.token); 
         setLoading(false);
     };
 
     const clearUser = () => {
         setUser(null);
-        setSearchResults([]);
+        // setSearchResults([]);
         localStorage.removeItem("token");
     };
 
