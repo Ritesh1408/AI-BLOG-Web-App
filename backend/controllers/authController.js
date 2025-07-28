@@ -93,7 +93,7 @@ const loginUser = async (req, res) => {
 // @access Private (Requires JWT)
 const getUserProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select("-password");
+        const user = await User.findById(req.user._id).select("-password"); // fix id->_id
         if(!user){
             return res.status(404).json({ message: "User no found" });
         }
