@@ -1,6 +1,7 @@
 import React from "react";
 import { LuHeart, LuEye } from 'react-icons/lu';
-
+// added for image TODO:
+import { getImageUrl } from '../../../utils/getImageUrl';
 const FeaturedBlogPost = ({
   title,
   coverImageUrl,
@@ -20,7 +21,7 @@ const FeaturedBlogPost = ({
         >
             <div className="col-span-6">
                 <img 
-                    src={coverImageUrl}
+                    src={getImageUrl(coverImageUrl)}
                     alt={title}
                     className="w-full h-80 object-cover"
                 />
