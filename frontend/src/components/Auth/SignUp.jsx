@@ -4,7 +4,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import { UserContext } from '../../context/userContext';
 
-import AUTH_IMG from "../../assets/auth-img.jpeg";
+import AUTH_IMG from "../../assets/auth-img.png";
 import Input from '../Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../Inputs/ProfilePhotoSelector';
@@ -152,7 +152,7 @@ const SignUp = ({ setCurrentPage }) => {
         </form>
       </div>
       <div className='hidden md:block'>
-        <img src={AUTH_IMG} alt='Login' className='h-[520px] w-[33vw]' />
+        <img src={AUTH_IMG} alt='Login' className='h-[520px] w-[33vw] rounded' />
       </div>
     </div>
   )

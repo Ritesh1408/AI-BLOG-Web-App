@@ -4,7 +4,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import { UserContext } from '../../context/userContext';
 
-import AUTH_IMG from "../../assets/auth-img.jpeg";
+import AUTH_IMG from "../../assets/auth-img.png";
 import Input from '../Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 
@@ -68,7 +68,7 @@ const Login = ({ setCurrentPage }) => {
       <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center'>
         <h3 className='text-lg font-semibold text-black'>Welcome Back</h3>
         <p className='text-xs text-slate-700 mt-[2px] mb-6'>
-          Please enter your details to log in
+          Please enter your details to Log In
         </p>
 
         <form onSubmit={handleLogin}>
